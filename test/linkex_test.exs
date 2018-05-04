@@ -15,13 +15,13 @@ defmodule LinkexTest do
         last: %Entry{
           target:
             URI.parse(
-              "https://api.github.com/user/13632762/repos?client_id=1&client_secret=2&page=2&per_page=100"
+              "https://api.github.com/user/13632762/repos?client_id=1&client_secret=2&page=3&per_page=100"
             )
         },
         next: %Entry{
           target:
             URI.parse(
-              "https://api.github.com/user/13632762/repos?client_id=1&client_secret=2&page=3&per_page=100"
+              "https://api.github.com/user/13632762/repos?client_id=1&client_secret=2&page=2&per_page=100"
             )
         }
       }
@@ -37,18 +37,18 @@ defmodule LinkexTest do
       {:ok, actual} = Linkex.decode(link)
 
       expected = %LinkHeader{
-        last: %Entry{
+        next: %Entry{
           target:
             URI.parse(
               "https://api.github.com/user/13632762/repos?client_id=1&client_secret=2&page=2&per_page=100"
             )
         },
-        next: %Entry{
+        last: %Entry{
           target:
             URI.parse(
               "https://api.github.com/user/13632762/repos?client_id=1&client_secret=2&page=3&per_page=100"
             )
-        }
+        },
       }
 
       assert actual == expected
@@ -179,13 +179,13 @@ defmodule LinkexTest do
         last: %Entry{
           target:
             URI.parse(
-              "https://api.github.com/user/13632762/repos?client_id=1&client_secret=2&page=2&per_page=100"
+              "https://api.github.com/user/13632762/repos?client_id=1&client_secret=2&page=3&per_page=100"
             )
         },
         next: %Entry{
           target:
             URI.parse(
-              "https://api.github.com/user/13632762/repos?client_id=1&client_secret=2&page=3&per_page=100"
+              "https://api.github.com/user/13632762/repos?client_id=1&client_secret=2&page=2&per_page=100"
             )
         }
       }

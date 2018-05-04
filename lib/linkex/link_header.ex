@@ -39,4 +39,11 @@ defmodule Linkex.LinkHeader do
             via: nil,
             working_copy: nil,
             working_copy_of: nil
+
+  def valid_relations do
+    %__MODULE__{}
+    |> Map.from_struct()
+    |> Map.keys()
+    |> Enum.map(fn key -> Atom.to_string(key) end)
+  end
 end
