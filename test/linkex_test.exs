@@ -48,7 +48,7 @@ defmodule LinkexTest do
             URI.parse(
               "https://api.github.com/user/13632762/repos?client_id=1&client_secret=2&page=3&per_page=100"
             )
-        },
+        }
       }
 
       assert actual == expected
@@ -385,8 +385,8 @@ defmodule LinkexTest do
       {:ok, actual} = Linkex.encode(header)
 
       expected =
-        ~s(<https://api.github.com/user/13632762/repos?client_id=1&client_secret=2&page=2&per_page=100>; rel="next", ) <>
-          ~s(<https://api.github.com/user/13632762/repos?client_id=1&client_secret=2&page=3&per_page=100>; rel="last")
+        ~s(<https://api.github.com/user/13632762/repos?client_id=1&client_secret=2&page=2&per_page=100>; rel="last", ) <>
+          ~s(<https://api.github.com/user/13632762/repos?client_id=1&client_secret=2&page=3&per_page=100>; rel="next")
 
       assert actual == expected
     end
@@ -407,9 +407,9 @@ defmodule LinkexTest do
       {:ok, actual} = Linkex.encode(header)
 
       expected =
-        ~s(<https://api.github.com/user/13632762/repos?page=3&per_page=100>; rel="next", ) <>
-          ~s(<https://api.github.com/user/13632762/repos?page=1&per_page=100>; rel="prev", ) <>
-          ~s(<https://api.github.com/user/13632762/repos?page=5&per_page=100>; rel="last")
+        ~s(<https://api.github.com/user/13632762/repos?page=5&per_page=100>; rel="last", ) <>
+          ~s(<https://api.github.com/user/13632762/repos?page=3&per_page=100>; rel="next", ) <>
+          ~s(<https://api.github.com/user/13632762/repos?page=1&per_page=100>; rel="prev")
 
       assert actual == expected
     end
@@ -484,7 +484,9 @@ defmodule LinkexTest do
 
       {:ok, actual} = Linkex.encode(header)
 
-      expected = ~s(<https://imaginary.url.notreal/?name=What,+me+worry>; rel="next last")
+      expected =
+        ~s(<https://imaginary.url.notreal/?name=What,+me+worry>; rel="last", ) <>
+          ~s(<https://imaginary.url.notreal/?name=What,+me+worry>; rel="next")
 
       assert actual == expected
     end
@@ -638,10 +640,10 @@ defmodule LinkexTest do
           ~s(<https://example.com/next>; rel="next", ) <>
           ~s(<https://example.com/next-archive>; rel="next-archive", ) <>
           ~s(<https://example.com/payment>; rel="payment", ) <>
-          ~s(<https://example.com/prev>; rel="prev", ) <>
           ~s(<https://example.com/predecessor-version>; rel="predecessor-version", ) <>
-          ~s(<https://example.com/previous>; rel="previous", ) <>
+          ~s(<https://example.com/prev>; rel="prev", ) <>
           ~s(<https://example.com/prev-archive>; rel="prev-archive", ) <>
+          ~s(<https://example.com/previous>; rel="previous", ) <>
           ~s(<https://example.com/related>; rel="related", ) <>
           ~s(<https://example.com/replies>; rel="replies", ) <>
           ~s(<https://example.com/section>; rel="section", ) <>
@@ -656,6 +658,29 @@ defmodule LinkexTest do
           ~s(<https://example.com/via>; rel="via", ) <>
           ~s(<https://example.com/working-copy>; rel="working-copy", ) <>
           ~s(<https://example.com/working-copy-of>; rel="working-copy-of")
+
+      assert actual == expected
+    end
+
+    test "target attributes" do
+      header = %LinkHeader{
+        next: %Entry{
+          target: URI.parse("https://api.github.com/user/13632762/repos?page=3&per_page=100"),
+          title: "some title",
+          anchor: URI.parse("https://api.github.com/user/13632762/repos?page=2&per_page=100"),
+          hreflang: "some lang",
+          media: "some media",
+          type: "some type"
+        }
+      }
+
+      expected =
+        ~s(<https://api.github.com/user/13632762/repos?page=3&per_page=100>; ) <>
+          ~s(anchor="https://api.github.com/user/13632762/repos?page=2&per_page=100"; ) <>
+          ~s(hreflang="some lang"; media="some media"; rel="next"; ) <>
+          ~s(title="some title"; type="some type")
+
+      {:ok, actual} = Linkex.encode(header)
 
       assert actual == expected
     end
