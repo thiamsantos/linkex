@@ -1,4 +1,5 @@
 defmodule Linkex.Decoder do
+  @moduledoc false
   alias Linkex.{LinkHeader, Entry, DecodeError}
 
   @params_delimiter ";"
@@ -19,6 +20,7 @@ defmodule Linkex.Decoder do
     {:ok, decoded_header}
   end
 
+  @spec decode(any()) :: {:error, %DecodeError{}}
   def decode(_) do
     {:error, %DecodeError{message: "Expected argument to be of type `string`"}}
   end

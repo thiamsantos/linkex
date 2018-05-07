@@ -1,10 +1,14 @@
 defmodule Linkex do
   @moduledoc """
-  Documentation for Linkex.
+  Encode and decode HTTP Link headers.
   """
 
-  alias Linkex.{Decoder, Encoder}
+  alias Linkex.{Decoder, Encoder, LinkHeader}
 
+  @doc """
+  Encode a `Linkex.LinkHeader` struct to a Link HTTP header.
+  """
+  @spec encode(LinkHeader.t()) :: {:ok, String.t()}
   def encode(header), do: Encoder.encode(header)
 
   def encode!(header) do
@@ -13,6 +17,10 @@ defmodule Linkex do
     |> handle_result()
   end
 
+  @doc """
+  Decode a Link HTTP header to a `Linkex.LinkHeader` struct.
+  """
+  @spec decode(String.t()) :: {:ok, LinkHeader.t()}
   def decode(header), do: Decoder.decode(header)
 
   def decode!(header) do

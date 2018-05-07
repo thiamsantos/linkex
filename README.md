@@ -28,6 +28,69 @@ end
 
 ## Usage
 
+```elixir
+iex> Linkex.encode("<https://api.github.com/user/13632762/repos?client_id=1&client_secret=2&page=2&per_page=100>; rel="next", <https://api.github.com/user/13632762/repos?client_id=1&client_secret=2&page=3&per_page=100>; rel="last")
+{:ok, %LinkHeader{
+  last: %Entry{
+    target:
+      %URI{
+        authority: "api.github.com",
+        fragment: nil,
+        host: "api.github.com",
+        path: "/user/13632762/repos",
+        port: 443,
+        query: "client_id=1&client_secret=2&page=3&per_page=100",
+        scheme: "https",
+        userinfo: nil
+      }
+  },
+  next: %Entry{
+    target:
+      %URI{
+        authority: "api.github.com",
+        fragment: nil,
+        host: "api.github.com",
+        path: "/user/13632762/repos",
+        port: 443,
+        query: "client_id=1&client_secret=2&page=2&per_page=100",
+        scheme: "https",
+        userinfo: nil
+      }
+  }
+}}
+
+iex> Linkex.decode(%LinkHeader{
+  last: %Entry{
+    target:
+      %URI{
+        authority: "api.github.com",
+        fragment: nil,
+        host: "api.github.com",
+        path: "/user/13632762/repos",
+        port: 443,
+        query: "client_id=1&client_secret=2&page=3&per_page=100",
+        scheme: "https",
+        userinfo: nil
+      }
+  },
+  next: %Entry{
+    target:
+      %URI{
+        authority: "api.github.com",
+        fragment: nil,
+        host: "api.github.com",
+        path: "/user/13632762/repos",
+        port: 443,
+        query: "client_id=1&client_secret=2&page=2&per_page=100",
+        scheme: "https",
+        userinfo: nil
+      }
+  }
+})
+
+{:ok, "<https://api.github.com/user/13632762/repos?client_id=1&client_secret=2&page=2&per_page=100>; rel="next", <https://api.github.com/user/13632762/repos?client_id=1&client_secret=2&page=3&per_page=100>; rel="last"}
+```
+
 ## Contributing
 
 See the [contributing file](CONTRIBUTING.md).

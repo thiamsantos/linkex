@@ -1,4 +1,8 @@
 defmodule Linkex.Entry do
+  @moduledoc """
+  Relation type entry.
+  """
+
   defstruct target: nil,
             anchor: nil,
             rev: nil,
@@ -7,6 +11,17 @@ defmodule Linkex.Entry do
             title: nil,
             type: nil,
             extension: %{}
+
+  @type t :: %__MODULE__{
+          target: URI.t(),
+          anchor: URI.t(),
+          rev: String.t(),
+          hreflang: String.t(),
+          media: String.t(),
+          title: String.t(),
+          type: String.t(),
+          extension: map()
+        }
 
   def valid_values do
     %__MODULE__{}

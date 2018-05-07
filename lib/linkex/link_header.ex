@@ -1,4 +1,9 @@
 defmodule Linkex.LinkHeader do
+  @moduledoc """
+  Link Header struct.
+  """
+  alias Linkex.Entry
+
   defstruct alternate: nil,
             appendix: nil,
             bookmark: nil,
@@ -39,6 +44,49 @@ defmodule Linkex.LinkHeader do
             via: nil,
             working_copy: nil,
             working_copy_of: nil
+
+  @type t :: %__MODULE__{
+          alternate: Entry.t(),
+          appendix: Entry.t(),
+          bookmark: Entry.t(),
+          chapter: Entry.t(),
+          contents: Entry.t(),
+          copyright: Entry.t(),
+          current: Entry.t(),
+          describedby: Entry.t(),
+          edit: Entry.t(),
+          edit_media: Entry.t(),
+          enclosure: Entry.t(),
+          first: Entry.t(),
+          glossary: Entry.t(),
+          help: Entry.t(),
+          hub: Entry.t(),
+          index: Entry.t(),
+          last: Entry.t(),
+          latest_version: Entry.t(),
+          license: Entry.t(),
+          next_archive: Entry.t(),
+          next: Entry.t(),
+          payment: Entry.t(),
+          predecessor_version: Entry.t(),
+          prev_archive: Entry.t(),
+          prev: Entry.t(),
+          previous: Entry.t(),
+          related: Entry.t(),
+          replies: Entry.t(),
+          section: Entry.t(),
+          self: Entry.t(),
+          service: Entry.t(),
+          start: Entry.t(),
+          stylesheet: Entry.t(),
+          subsection: Entry.t(),
+          successor_version: Entry.t(),
+          up: Entry.t(),
+          version_history: Entry.t(),
+          via: Entry.t(),
+          working_copy: Entry.t(),
+          working_copy_of: Entry.t()
+        }
 
   def valid_relations do
     %__MODULE__{}

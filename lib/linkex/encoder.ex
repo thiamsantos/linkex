@@ -1,4 +1,5 @@
 defmodule Linkex.Encoder do
+  @moduledoc false
   alias Linkex.{LinkHeader, EncodeError}
 
   @spec encode(%LinkHeader{}) :: {:ok, String.t()}
@@ -15,6 +16,7 @@ defmodule Linkex.Encoder do
     {:ok, encoded_header}
   end
 
+  @spec encode(any()) :: {:error, %EncodeError{}}
   def encode(_) do
     {:error, %EncodeError{message: "Expected argument to be of type `Linkex.LinkHeader`"}}
   end

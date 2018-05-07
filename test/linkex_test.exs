@@ -3,6 +3,8 @@ defmodule LinkexTest do
 
   alias Linkex.{LinkHeader, Entry, DecodeError, EncodeError}
 
+  doctest Linkex
+
   describe "decode/1" do
     test "a proper link header with next and last" do
       link =
