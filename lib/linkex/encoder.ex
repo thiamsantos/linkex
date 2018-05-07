@@ -1,6 +1,7 @@
 defmodule Linkex.Encoder do
-  alias Linkex.LinkHeader
+  alias Linkex.{LinkHeader, EncodeError}
 
+  @spec encode(%LinkHeader{}) :: {:ok, String.t()}
   def encode(%LinkHeader{} = header) do
     encoded_header =
       header
@@ -12,6 +13,10 @@ defmodule Linkex.Encoder do
       |> Enum.join(", ")
 
     {:ok, encoded_header}
+  end
+
+  def encode(_) do
+    {:error, %EncodeError{message: "Expected argument to be of type `Linkex.LinkHeader`"}}
   end
 
   defp build_link({relation_type, entry}) do

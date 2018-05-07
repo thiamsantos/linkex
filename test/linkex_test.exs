@@ -1,7 +1,7 @@
 defmodule LinkexTest do
   use ExUnit.Case, async: true
 
-  alias Linkex.{LinkHeader, Entry}
+  alias Linkex.{LinkHeader, Entry, DecodeError, EncodeError}
 
   describe "decode/1" do
     test "a proper link header with next and last" do
@@ -363,6 +363,22 @@ defmodule LinkexTest do
 
       assert actual == expected
     end
+
+    test "return error when the argument is invalid" do
+      {:error, actual} = Linkex.decode(nil)
+
+      expected = %DecodeError{
+        message: "Expected argument to be of type `string`"
+      }
+
+      assert actual == expected
+    end
+
+    test "raised error when the argument is invalid" do
+      assert_raise DecodeError, "Expected argument to be of type `string`", fn ->
+        Linkex.decode!(nil)
+      end
+    end
   end
 
   describe "encode/1" do
@@ -683,6 +699,22 @@ defmodule LinkexTest do
       {:ok, actual} = Linkex.encode(header)
 
       assert actual == expected
+    end
+
+    test "return error when the argument is invalid" do
+      {:error, actual} = Linkex.encode(nil)
+
+      expected = %EncodeError{
+        message: "Expected argument to be of type `Linkex.LinkHeader`"
+      }
+
+      assert actual == expected
+    end
+
+    test "raised error when the argument is invalid" do
+      assert_raise EncodeError, "Expected argument to be of type `Linkex.LinkHeader`", fn ->
+        Linkex.encode!(nil)
+      end
     end
   end
 end

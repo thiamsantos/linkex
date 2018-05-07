@@ -1,11 +1,12 @@
 defmodule Linkex.Decoder do
-  alias Linkex.{LinkHeader, Entry}
+  alias Linkex.{LinkHeader, Entry, DecodeError}
 
   @params_delimiter ";"
   @params_format ~r/(\w+)=\"?([\w\s\-]+)\"?/
   @link_delimiter ~r/,\s*</
   @link_format ~r/<?(.+)>;\s?(.+)/
 
+  @spec decode(String.t()) :: {:ok, %LinkHeader{}}
   def decode(header) when is_binary(header) do
     decoded_header =
       header
@@ -16,6 +17,10 @@ defmodule Linkex.Decoder do
       |> extract_relations()
 
     {:ok, decoded_header}
+  end
+
+  def decode(_) do
+    {:error, %DecodeError{message: "Expected argument to be of type `string`"}}
   end
 
   defp split_links(header) do
